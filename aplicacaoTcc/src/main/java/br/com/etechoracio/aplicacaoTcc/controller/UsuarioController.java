@@ -1,5 +1,7 @@
 package br.com.etechoracio.aplicacaoTcc.controller;
 
+import br.com.etechoracio.aplicacaoTcc.entity.Usuario;
+import br.com.etechoracio.aplicacaoTcc.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,5 +17,6 @@ public class UsuarioController {
     private UsuarioRepository repository;
 
     @PostMapping
-    public ResponseEntity<Usuario> cadastrarUsuario(@RequestBody Usuario usuario){
+    public ResponseEntity<Usuario> cadastrarUsuario(@RequestBody Usuario usuario) {
         return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(usuario));}
+    }

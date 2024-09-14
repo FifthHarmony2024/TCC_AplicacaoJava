@@ -1,5 +1,7 @@
 package br.com.etechoracio.aplicacaoTcc.entity;
 
+import br.com.etechoracio.aplicacaoTcc.enuns.FormaPgto;
+import br.com.etechoracio.aplicacaoTcc.enuns.TipoUsuario;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -31,6 +33,9 @@ public class Usuario {
     @Column(name = "TELEFONE")
     private Integer telefone;
 
+    @Column(name = "SEXO")
+    private char sexo;
+
     @Column(name = "CPF")
     private BigInteger cpf;
 
@@ -50,5 +55,11 @@ public class Usuario {
     private BigInteger cep;
 
     private String confSenha;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "TIPO_USUARIO")
+    private TipoUsuario tipoUsuario;
+
+
 
 }

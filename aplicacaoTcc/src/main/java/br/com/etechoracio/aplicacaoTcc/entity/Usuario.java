@@ -1,16 +1,13 @@
 package br.com.etechoracio.aplicacaoTcc.entity;
 
-import br.com.etechoracio.aplicacaoTcc.enuns.FormaPgto;
-import br.com.etechoracio.aplicacaoTcc.enuns.TipoUsuario;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.math.BigInteger;
 
-@Getter
-@Setter
+@Data
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "USUARIO")
 public class Usuario {
     @Id
@@ -55,11 +52,5 @@ public class Usuario {
     private BigInteger cep;
 
     private String confSenha;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "TIPO_USUARIO")
-    private TipoUsuario tipoUsuario;
-
-
 
 }

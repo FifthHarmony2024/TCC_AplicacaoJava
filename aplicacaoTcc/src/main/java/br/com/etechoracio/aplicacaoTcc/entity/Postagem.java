@@ -35,4 +35,8 @@ public class Postagem {
 
     @Column(name = "DT_POSTAGEM")
     private LocalDate dtPostagem;
+
+    @ManyToOne
+    @JoinColumn(name = "ID_PRESTADOR", nullable = false)
+    private Prestador prestador;
 }

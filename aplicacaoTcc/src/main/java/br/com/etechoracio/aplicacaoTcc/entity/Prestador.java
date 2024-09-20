@@ -1,13 +1,12 @@
 package br.com.etechoracio.aplicacaoTcc.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigInteger;
+import java.util.List;
 
 @Getter
 @Setter
@@ -23,6 +22,9 @@ public class Prestador extends Usuario{
 
     @Column(name = "CNPJ")
     public BigInteger cnpj;
+
+    @OneToMany(mappedBy = "prestador", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Postagem> postagens;
 
 
 }

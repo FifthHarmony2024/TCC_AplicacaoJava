@@ -29,12 +29,6 @@ public class UsuarioService {
         return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(usuario));
     }
 
-    // verificar se ta funcionado
-  //  @GetMapping
-  //  public List<Usuario> listarPrestadores(){
-   //     return repository.findAll();
-  //  }
-
     //Validacao de email ou telefone
 
     private ModelMapper modelMapper = new ModelMapper();

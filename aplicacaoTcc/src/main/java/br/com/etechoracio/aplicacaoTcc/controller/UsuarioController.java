@@ -17,6 +17,7 @@ public class UsuarioController {
     @Autowired
     private UsuarioService service;
 
+
     @PostMapping("/cliente")
     public ResponseEntity<Usuario> cadastrarUsuario(@RequestBody Usuario usuario) {
         return service.cadastrarUsuario(usuario);
@@ -27,7 +28,12 @@ public class UsuarioController {
         return service.cadastrarPrestador(prestador);
     }
 
-    public List<UsuarioResponseDTO> listar(){return service.listar();}
-
-
+    @GetMapping
+    public ResponseEntity<List<UsuarioResponseDTO>> listar() {
+        List<UsuarioResponseDTO> usuarios = service.listar();
+        return ResponseEntity.ok(usuarios);
+    }
 }
+
+
+

@@ -4,6 +4,10 @@ import lombok.Data;
 
 @Data
 public class UsuarioResponseDTO {
+
     private String nome;
-    private String nomeComercial;
+    private String sobrenome;
+    private String email;
+    private Integer telefone;
+    private String endereco;
 }

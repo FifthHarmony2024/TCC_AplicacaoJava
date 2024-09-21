@@ -1,5 +1,6 @@
 package br.com.etechoracio.aplicacaoTcc.service;
 
+import br.com.etechoracio.aplicacaoTcc.dto.PrestadorResponseDTO;
 import br.com.etechoracio.aplicacaoTcc.dto.UsuarioResponseDTO;
 import br.com.etechoracio.aplicacaoTcc.entity.Prestador;
 import br.com.etechoracio.aplicacaoTcc.entity.Usuario;
@@ -29,14 +30,19 @@ public class UsuarioService {
         return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(usuario));
     }
 
-    //Validacao de email ou telefone
-
     private ModelMapper modelMapper = new ModelMapper();
-    public List<UsuarioResponseDTO> listar(){
+
+    public List<UsuarioResponseDTO> listar() {
         var usuarios = repository.findAll();
-        var resultado = usuarios.stream().map(
-                        e-> modelMapper.map(e, UsuarioResponseDTO.class))
-                .collect(Collectors.toList());
+
+        var resultado = usuarios.stream().map(usuario -> {
+            if (usuario instanceof Prestador) {
+                return modelMapper.map(usuario, PrestadorResponseDTO.class);
+            } else {
+                return modelMapper.map(usuario, UsuarioResponseDTO.class);
+            }
+        }).collect(Collectors.toList());
+
         return resultado;
     }
 

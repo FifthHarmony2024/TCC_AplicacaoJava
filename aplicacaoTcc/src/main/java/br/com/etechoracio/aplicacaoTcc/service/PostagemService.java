@@ -49,7 +49,8 @@ public class PostagemService {
                 .map(postagem -> modelMapper.map(postagem, PostagemResponseDTO.class))
                 .collect(Collectors.toList());
     }
-    public void deletarPorId(Integer id) {
-        repository.deleteById(id);
+    //deletar nao esta funcionando
+    public void deletarPorId(Integer idPostagem) {
+        repository.deleteById(idPostagem);
     }
 }

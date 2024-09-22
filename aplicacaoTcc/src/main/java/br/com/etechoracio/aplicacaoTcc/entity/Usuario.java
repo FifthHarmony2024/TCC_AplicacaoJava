@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.math.BigInteger;
+import java.time.LocalDate;
 
 @Data
 @Entity
@@ -28,10 +29,13 @@ public class Usuario {
     private String email;
 
     @Column(name = "TELEFONE")
-    private Integer telefone;
+    private String telefone;
 
     @Column(name = "SEXO")
     private char sexo;
+
+    @Column(name = "DATANASCIMENTO")
+    private LocalDate dataNascimento;
 
     @Column(name = "CPF")
     private BigInteger cpf;

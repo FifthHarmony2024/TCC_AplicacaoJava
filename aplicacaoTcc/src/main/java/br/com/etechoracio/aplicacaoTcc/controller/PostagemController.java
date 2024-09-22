@@ -32,9 +32,10 @@ public class PostagemController {
         return ResponseEntity.ok(postagens);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarPostagem(@PathVariable Integer idUsuario) {
-        service.deletarPorId(idUsuario);
+    //deletar nao esta funcionando
+    @DeleteMapping("/{idPostagem}")
+    public ResponseEntity<Void> deletarPostagem(@PathVariable Integer idPostagem) {
+        service.deletarPorId(idPostagem);
         return ResponseEntity.noContent().build();
     }
 }

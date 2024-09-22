@@ -1,0 +1,40 @@
+usuários testes: cadastro de usuários com atributos deles 
+
+Usuário cliente:
+{
+	"nome":"Mariana",
+	"sobrenome":"Silva Rodrigues",
+	"senha":"Mari12345",
+	"email":"marianasilva@gmail.com",
+	"telefone":"11967544329",
+	"sexo":"F",
+	"dataNascimento":"1990-05-15",
+	"cpf":"80023456332",
+	"endereco":"Rua Novo Horizonte",
+	"numResidencial":"134",
+	"bairro":"Jardim Pernambuco",
+	"complementoResi":"",
+	"cep":"09844567"
+}
+
+Usuário Prestador:
+{
+	"nome":"Renato",
+	"sobrenome":" Bruno Magalhães",
+	"senha":"bruninho12345",
+	"email":"renatopedreiro@gmail.com",
+	"telefone":"11964554329",
+	"sexo":"M",
+	"dataNascimento":"1990-05-15",
+	"cpf":"40053456332",
+	"endereco":"Rua Paraiso",
+	"numResidencial":"174",
+	"bairro":"Jardim Pereira",
+	"complementoResi":"",
+	"cep":"09834567",
+	"categoriaServico":"Pedreiro",
+	"nomeComercial":"Renato Quebra Tudo",
+	"tipoPrestador":"AUTONOMO"
+	"cnpj":""
+}
+

@@ -1,5 +1,7 @@
 package br.com.etechoracio.aplicacaoTcc.entity;
 
+import br.com.etechoracio.aplicacaoTcc.enuns.FormaPgto;
+import br.com.etechoracio.aplicacaoTcc.enuns.TipoPrestador;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -14,6 +16,7 @@ import java.util.List;
 @Table(name = "PRESTADOR")
 
 public class Prestador extends Usuario{
+
     @Column(name = "CATEGORIA_SERVICO")
     public String categoriaServico;
 
@@ -23,8 +26,15 @@ public class Prestador extends Usuario{
     @Column(name = "CNPJ")
     public BigInteger cnpj;
 
+    @Column(name = "TIPO_PRESTADOR")
+    @Enumerated(EnumType.ORDINAL)
+    private TipoPrestador tipoPrestador;
+
+    //esta dando errado postagem
+
     @OneToMany(mappedBy = "prestador", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Postagem> postagens;
+
 
 
 }

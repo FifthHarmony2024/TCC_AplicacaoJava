@@ -29,10 +29,7 @@ public class UsuarioController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UsuarioResponseDTO>> listar() {
-        List<UsuarioResponseDTO> usuarios = service.listar();
-        return ResponseEntity.ok(usuarios);
-    }
+    public List<UsuarioResponseDTO> listar(){return service.listar();}
 }
 
 

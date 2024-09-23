@@ -1,5 +1,9 @@
 usuários testes: cadastro de usuários com atributos deles 
 
+Cadastrar prestador : http://localhost:8080/usuarios/prestador
+Cadastrar Cliente:  http://localhost:8080/usuarios/cliente
+Listar Usuários(GET): http://localhost:8080/usuarios
+
 Usuário cliente:
 {
 	"nome":"Mariana",
@@ -34,7 +38,35 @@ Usuário Prestador:
 	"cep":"09834567",
 	"categoriaServico":"Pedreiro",
 	"nomeComercial":"Renato Quebra Tudo",
-	"tipoPrestador":"AUTONOMO"
+	"tipoPrestador":"AUTONOMO",
 	"cnpj":""
 }
 
+Adicionar Postagens: http://localhost:8080/postagens/{id do Prestador}
+ex: http://localhost:8080/postagens/1
+
+
+Postagens Exemplo:
+{
+
+    "url": "https://meusite.com/imagem.jpg",
+    "descricaoPost": "Imagem de Servicos",
+    "resolucao": "1920x1080",
+    "tamanhoArquivo": 2.5,
+    "tipoArquivo": "image/jpeg",
+    "dtPostagem": "2024-09-22
+
+}
+
+Deletar: DELETE : http://localhost:8080/postagens/{id da Postagem}
+
+Ver os dias de serviço marcados na agenda: http://localhost:8080/agendas/prestador/1
+Marcar serviços na agenda: http://localhost:8080/agendas/marcar:
+
+{
+  "diaServico": "2024-09-25",
+  "hrDisponivel": "08:00",
+  "hrIndisponivel": "12:00",
+  "statusDia": "OCUPADO/LIVRE/FOLGA",
+  "idUsuario": 1
+}

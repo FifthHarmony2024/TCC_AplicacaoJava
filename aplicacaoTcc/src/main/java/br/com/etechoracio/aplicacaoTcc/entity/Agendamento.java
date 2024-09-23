@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
@@ -27,4 +28,5 @@ public class Agendamento {
 
     @Column(name = "VL_ORC")
     private BigDecimal valorOrcamento;
+
 }

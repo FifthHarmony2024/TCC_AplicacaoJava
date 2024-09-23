@@ -30,8 +30,6 @@ public class Prestador extends Usuario{
     @Enumerated(EnumType.ORDINAL)
     private TipoPrestador tipoPrestador;
 
-    //esta dando errado postagem
-
     @OneToMany(mappedBy = "prestador", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Postagem> postagens;
 

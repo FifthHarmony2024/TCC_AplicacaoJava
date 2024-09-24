@@ -24,19 +24,20 @@ public class UsuarioService {
     private UsuarioRepository repository;
 
     public ResponseEntity<Prestador> cadastrarPrestador(Prestador prestador) {
-
+        if (prestador.getTipoPrestador() == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
         if (prestador.getTipoPrestador() == TipoPrestador.AUTONOMO) {
-            if (prestador.getCpf() == null ) {
+            if (prestador.getCpf() == null) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
             }
             prestador.setCnpj(null);
         } else if (prestador.getTipoPrestador() == TipoPrestador.MICROEMPREENDEDOR) {
-            if (prestador.getCnpj() == null ) {
+            if (prestador.getCnpj() == null) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
             }
             prestador.setCpf(null);
         }
-
         return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(prestador));
     }
 

@@ -1,5 +1,6 @@
 package br.com.etechoracio.aplicacaoTcc.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -22,20 +23,20 @@ public class Usuario {
     @Column(name = "SOBRENOME")
     private String sobrenome;
 
-    @Column(name = "SENHA")
-    private String senha;
-
     @Column(name = "EMAIL")
     private String email;
 
     @Column(name = "TELEFONE")
     private String telefone;
 
-    @Column(name = "SEXO")
-    private char sexo;
-
     @Column(name = "DATANASCIMENTO")
     private LocalDate dataNascimento;
+
+    @Column(name = "SENHA")
+    private String senha;
+
+    @Column(name = "SEXO")
+    private char sexo;
 
     @Column(name = "CPF")
     private BigInteger cpf;

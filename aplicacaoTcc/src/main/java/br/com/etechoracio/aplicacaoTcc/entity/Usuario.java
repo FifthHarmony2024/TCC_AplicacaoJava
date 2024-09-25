@@ -3,6 +3,7 @@ package br.com.etechoracio.aplicacaoTcc.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigInteger;
 import java.time.LocalDate;
@@ -30,6 +31,7 @@ public class Usuario {
     private String telefone;
 
     @Column(name = "DATANASCIMENTO")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate dataNascimento;
 
     @Column(name = "SENHA")

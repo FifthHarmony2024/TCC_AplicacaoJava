@@ -1,5 +1,7 @@
 package br.com.etechoracio.aplicacaoTcc.entity;
 
+import br.com.etechoracio.aplicacaoTcc.enuns.GeneroOpcao;
+import br.com.etechoracio.aplicacaoTcc.enuns.TipoPrestador;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -37,8 +39,9 @@ public class Usuario {
     @Column(name = "SENHA")
     private String senha;
 
-    @Column(name = "SEXO")
-    private char sexo;
+    @Column(name = "GENERO")
+    @Enumerated(EnumType.ORDINAL)
+    private GeneroOpcao generoOpcao;
 
     @Column(name = "CPF")
     private BigInteger cpf;
@@ -57,6 +60,12 @@ public class Usuario {
 
     @Column(name = "CEP")
     private BigInteger cep;
+
+    @Column(name = "CIDADE")
+    private String cidade;
+
+    @Column(name = "ESTADO")
+    private String estado;
 
     private String confSenha;
 

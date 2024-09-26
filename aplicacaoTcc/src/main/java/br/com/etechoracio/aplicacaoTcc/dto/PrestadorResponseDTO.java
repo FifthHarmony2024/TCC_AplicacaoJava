@@ -16,4 +16,13 @@ public class PrestadorResponseDTO extends UsuarioResponseDTO{
     private TipoPrestador tipo;
     private List<PostagemResponseDTO> postagens;
 
+    // fica aparecendo o cnpj no get, fazer nao aparecer 
+    public BigInteger getDocumento() {
+        if (TipoPrestador.MICROEMPREENDEDOR.equals(tipo)) {
+            return cnpj;
+        } else{
+            return null;
+        }
+    }
+
 }

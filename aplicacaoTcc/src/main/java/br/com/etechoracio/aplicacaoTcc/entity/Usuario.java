@@ -2,6 +2,7 @@ package br.com.etechoracio.aplicacaoTcc.entity;
 
 import br.com.etechoracio.aplicacaoTcc.enuns.GeneroOpcao;
 import br.com.etechoracio.aplicacaoTcc.enuns.TipoPrestador;
+import br.com.etechoracio.aplicacaoTcc.enuns.TipoSituacaoUsuario;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -67,6 +68,12 @@ public class Usuario {
     @Column(name = "ESTADO")
     private String estado;
 
+    @Enumerated(EnumType.ORDINAL)
+    private TipoSituacaoUsuario tipoSituacaoUsuario;
+
     private String confSenha;
+
+    @Column(nullable = true)
+    private String login;
 
 }

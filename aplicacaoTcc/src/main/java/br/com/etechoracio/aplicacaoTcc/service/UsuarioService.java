@@ -9,13 +9,13 @@ import br.com.etechoracio.aplicacaoTcc.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.modelmapper.ModelMapper;
 
-
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
-
 
 @Service
 public class UsuarioService {
@@ -23,10 +23,14 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository repository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public ResponseEntity<Prestador> cadastrarPrestador(Prestador prestador) {
         if (prestador.getTipoPrestador() == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
+
         if (prestador.getTipoPrestador() == TipoPrestador.AUTONOMO) {
             if (prestador.getCpf() == null) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
@@ -38,37 +42,41 @@ public class UsuarioService {
             }
             prestador.setCpf(null);
         }
+
+        prestador.setSenha(passwordEncoder.encode(prestador.getSenha()));
         return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(prestador));
     }
 
-    //validacao de cnpj
-    // validacao de cpf
-    // validacao de email
-    //validacao de telefone
-    // validacao de cep
-    //validacao de senhas iguais - senha e confirmar senha
+    public ResponseEntity<Usuario> cadastrarUsuario(Usuario usuario) {
+        try {
+            if (usuario.getNome() == null || usuario.getNome().isEmpty()) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            }
 
-    //alterar dados
-    // mudar foto de perfil
+            // Verifica se o usuário já existe
+            Optional<Usuario> existingUser = repository.findByLogin(usuario.getLogin());
+            if (existingUser.isPresent()) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+            }
 
-    public ResponseEntity<Usuario> cadastrarUsuario( Usuario usuario) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(usuario));
+            usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
+            return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(usuario));
+        } catch (Exception e) {
+            System.out.println("Erro ao cadastrar usuário: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 
     private ModelMapper modelMapper = new ModelMapper();
 
     public List<UsuarioResponseDTO> listar() {
         var usuarios = repository.findAll();
-        var resultado = usuarios.stream().map(usuario -> {
+        return usuarios.stream().map(usuario -> {
             if (usuario instanceof Prestador) {
                 return modelMapper.map(usuario, PrestadorResponseDTO.class);
             } else {
                 return modelMapper.map(usuario, UsuarioResponseDTO.class);
             }
         }).collect(Collectors.toList());
-
-        return resultado;
     }
-
-
 }

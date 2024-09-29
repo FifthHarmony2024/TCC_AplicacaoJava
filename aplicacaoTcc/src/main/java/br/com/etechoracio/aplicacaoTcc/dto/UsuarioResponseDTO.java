@@ -9,4 +9,7 @@ public class UsuarioResponseDTO {
     private String sobrenome;
     private String email;
     private String telefone;
+    private String estado;
+    private String cidade;
+
 }

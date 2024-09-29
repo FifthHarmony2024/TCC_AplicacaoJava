@@ -22,14 +22,11 @@ public class AuthService {
     public AcessResponseDTO login(AuthenticationResponseDTO authDto) {
 
         try {
-            //Cria mecanismo de credencial para o spring
             UsernamePasswordAuthenticationToken userAuth =
-                    new UsernamePasswordAuthenticationToken(authDto.getUsername(), authDto.getPassword());
+                    new UsernamePasswordAuthenticationToken(authDto.getEmail(), authDto.getSenha());
 
-            //Prepara mecanismo para autenticacao
             Authentication authentication = authenticatioManager.authenticate(userAuth);
 
-            //Busca usuario logado
             UserDetailImpl userAuthenticate = (UserDetailImpl) authentication.getPrincipal();
 
             String token = jwtUtils.generateTokenFromUserDetailsImpl(userAuthenticate);

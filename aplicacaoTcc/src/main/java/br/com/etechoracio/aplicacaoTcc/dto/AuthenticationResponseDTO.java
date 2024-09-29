@@ -7,7 +7,7 @@ import lombok.Getter;
 @Data
 public class AuthenticationResponseDTO {
 
-    private String username;
-    private String password;
+    private String email;
+    private String senha;
 
 }

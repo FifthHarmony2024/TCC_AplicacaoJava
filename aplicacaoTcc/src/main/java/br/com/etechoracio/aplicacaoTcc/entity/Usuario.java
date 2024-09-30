@@ -84,7 +84,6 @@ public class Usuario {
     @NotBlank
     private String confSenha;
 
-    @Column(nullable = true)
+    @Column(unique = true)
     private String login;
-
 }

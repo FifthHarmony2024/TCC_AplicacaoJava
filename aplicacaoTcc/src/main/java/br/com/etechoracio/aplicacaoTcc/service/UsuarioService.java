@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.modelmapper.ModelMapper;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,6 +25,8 @@ public class UsuarioService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    private ModelMapper modelMapper = new ModelMapper();
+
     public ResponseEntity<Prestador> cadastrarPrestador(Prestador prestador) {
         if (prestador.getTipoPrestador() == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
@@ -35,39 +36,46 @@ public class UsuarioService {
             if (prestador.getCpf() == null) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
             }
+            if (repository.findByCpf(prestador.getCpf()).isPresent()) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+            }
             prestador.setCnpj(null);
-        } else if (prestador.getTipoPrestador() == TipoPrestador.MICROEMPREENDEDOR) {
+        }
+
+        if (prestador.getTipoPrestador() == TipoPrestador.MICROEMPREENDEDOR) {
             if (prestador.getCnpj() == null) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            }
+            if (repository.findByCnpj(prestador.getCnpj()).isPresent()) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
             }
             prestador.setCpf(null);
         }
 
+        if (repository.findByLogin(prestador.getLogin()).isPresent()) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+        }
+
         prestador.setSenha(passwordEncoder.encode(prestador.getSenha()));
-        return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(prestador));
+        Prestador savedPrestador = repository.save(prestador);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedPrestador);
     }
 
     public ResponseEntity<Usuario> cadastrarUsuario(Usuario usuario) {
-        try {
-            if (usuario.getNome() == null || usuario.getNome().isEmpty()) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-            }
-
-            // Verifica se o usuário já existe
-            Optional<Usuario> existingUser = repository.findByLogin(usuario.getLogin());
-            if (existingUser.isPresent()) {
-                return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
-            }
-
-            usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
-            return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(usuario));
-        } catch (Exception e) {
-            System.out.println("Erro ao cadastrar usuário: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        if (usuario.getNome() == null || usuario.getNome().isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
-    }
 
-    private ModelMapper modelMapper = new ModelMapper();
+        if (repository.findByLogin(usuario.getLogin()).isPresent()) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);  // Login já em uso
+        }
+
+        usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
+        Usuario savedUsuario = repository.save(usuario);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedUsuario);
+    }
 
     public List<UsuarioResponseDTO> listar() {
         var usuarios = repository.findAll();

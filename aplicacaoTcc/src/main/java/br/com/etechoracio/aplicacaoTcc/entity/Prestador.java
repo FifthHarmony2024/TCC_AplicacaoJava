@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.validator.constraints.br.CNPJ;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -23,8 +24,9 @@ public class Prestador extends Usuario{
     @Column(name = "NOME_COMERCIAL")
     public String nomeComercial;
 
+    @CNPJ
     @Column(name = "CNPJ")
-    public BigInteger cnpj;
+    public String cnpj;
 
     @Column(name = "TIPO_PRESTADOR")
     @Enumerated(EnumType.ORDINAL)

@@ -86,4 +86,7 @@ public class Usuario {
 
     @Column(unique = true)
     private String login;
+
+    private String fotoPerfil;
+
 }

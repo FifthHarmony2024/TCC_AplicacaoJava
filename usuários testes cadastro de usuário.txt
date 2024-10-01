@@ -12,7 +12,7 @@ Usuário cliente:
 	"email":"marianasilva@gmail.com",
 	"telefone":"11967544329",
 	"sexo":"F",
-	"dataNascimento":"15/02/2006",
+	"dataNascimento":"1990-05-15",
 	"cpf":"80023456332",
 	"endereco":"Rua Novo Horizonte",
 	"numResidencial":"134",
@@ -24,13 +24,13 @@ Usuário cliente:
 Usuário Prestador:
 {
 	"nome":"Renato",
-	"sobrenome":"Bruno Magalhães",
+	"sobrenome":" Bruno Magalhães",
 	"senha":"bruninho12345",
-	"email":"renatopedre@gmail.com",
+	"email":"renatopedreiro@gmail.com",
 	"telefone":"11964554329",
 	"sexo":"M",
-	"dataNascimento":"15/02/2006",
-	"cpf":"230.157.900-05",
+	"login":"ren",
+	"cpf":"40053456332",
 	"endereco":"Rua Paraiso",
 	"numResidencial":"174",
 	"bairro":"Jardim Pereira",
@@ -39,8 +39,9 @@ Usuário Prestador:
 	"categoriaServico":"Pedreiro",
 	"nomeComercial":"Renato Quebra Tudo",
 	"tipoPrestador":"AUTONOMO",
-	"confSenha": "luh"
+	"cnpj":""
 }
+
 Adicionar Postagens: http://localhost:8080/postagens/{id do Prestador}
 ex: http://localhost:8080/postagens/1
 
@@ -69,99 +70,3 @@ Marcar serviços na agenda: http://localhost:8080/agendas/marcar:
   "statusDia": "OCUPADO/LIVRE/FOLGA",
   "idUsuario": 1
 }
-
-package br.com.etechoracio.aplicacaoTcc.service;
-
-import br.com.etechoracio.aplicacaoTcc.dto.PrestadorResponseDTO;
-import br.com.etechoracio.aplicacaoTcc.dto.UsuarioResponseDTO;
-import br.com.etechoracio.aplicacaoTcc.entity.Prestador;
-import br.com.etechoracio.aplicacaoTcc.entity.Usuario;
-import br.com.etechoracio.aplicacaoTcc.enuns.TipoPrestador;
-import br.com.etechoracio.aplicacaoTcc.repository.UsuarioRepository;
-import br.com.etechoracio.aplicacaoTcc.validacao.CNPJ;
-import br.com.etechoracio.aplicacaoTcc.validacao.CPF;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-import org.modelmapper.ModelMapper;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-@Service
-public class UsuarioService {
-
-    @Autowired
-    private UsuarioRepository repository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    private ModelMapper modelMapper = new ModelMapper();
-
-    // tratar resposta de erro se o cpf/ cnpj estiver errado
-    public ResponseEntity<Prestador> cadastrarPrestador(Prestador prestador) {
-        if (prestador.getTipoPrestador() == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        }
-        String cpfLimpo = prestador.getCpf().replaceAll("[^\\d]", "");
-        String cnpjLimpo = prestador.getCnpj().replaceAll("[^\\d]", "");
-
-        if (prestador.getTipoPrestador() == TipoPrestador.AUTONOMO) {
-            if (cpfLimpo.isEmpty() || !new CPF(cpfLimpo).isCPF()) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-            }
-            prestador.setCpf(cpfLimpo);
-            prestador.setCnpj(null);
-        } else if (prestador.getTipoPrestador() == TipoPrestador.MICROEMPREENDEDOR) {
-            if (cnpjLimpo.isEmpty() || !new CNPJ(cnpjLimpo).isCNPJ()) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-            }
-            prestador.setCnpj(cnpjLimpo);
-            prestador.setCpf(null);
-        }
-
-        prestador.setSenha(passwordEncoder.encode(prestador.getSenha()));
-        return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(prestador));
-    }
-
-    public ResponseEntity<Usuario> cadastrarUsuario(Usuario usuario) {
-        try {
-            if (usuario.getNome() == null || usuario.getNome().isEmpty()) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-            }
-
-            String cpfLimpo = usuario.getCpf().replaceAll("[^\\d]", "");
-            if (cpfLimpo.isEmpty() || !new CPF(cpfLimpo).isCPF()) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-            }
-            usuario.setCpf(cpfLimpo);
-
-            Optional<Usuario> existingUser = repository.findByLogin(usuario.getLogin());
-            if (existingUser.isPresent()) {
-                return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
-            }
-
-            usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
-            return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(usuario));
-        } catch (Exception e) {
-            System.out.println("Erro ao cadastrar usuário: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        }
-    }
-
-    public List<UsuarioResponseDTO> listar() {
-        var usuarios = repository.findAll();
-        return usuarios.stream().map(usuario -> {
-            if (usuario instanceof Prestador) {
-                return modelMapper.map(usuario, PrestadorResponseDTO.class);
-            } else {
-                return modelMapper.map(usuario, UsuarioResponseDTO.class);
-            }
-        }).collect(Collectors.toList());
-    }
-}
-

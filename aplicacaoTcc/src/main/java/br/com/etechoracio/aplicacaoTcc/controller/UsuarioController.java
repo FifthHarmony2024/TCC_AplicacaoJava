@@ -8,12 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import br.com.etechoracio.aplicacaoTcc.service.UsuarioService;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/usuarios")
-@CrossOrigin(origins = "http://192.168.0.5:8080")
+@CrossOrigin(origins = "http://192.168.0.7:8080")
 public class UsuarioController {
 
     @Autowired
@@ -32,6 +33,11 @@ public class UsuarioController {
 
     @GetMapping
     public List<UsuarioResponseDTO> listar(){return service.listar();}
+
+    @PostMapping("/{id}/uploadFoto")
+    public ResponseEntity<String> uploadFotoPerfil(@PathVariable Integer idUsuario, @RequestParam("file") MultipartFile file) {
+        return service.uploadFotoPerfil(idUsuario, file);
+    }
 }
 
 

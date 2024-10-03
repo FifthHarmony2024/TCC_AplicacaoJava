@@ -33,10 +33,10 @@ public class Avaliacao {
 
     @ManyToOne
     @JoinColumn(name = "ID_PEDIDO")
-    private Pedido idPed;
+    private Pedido idPedido;
 
     @ManyToOne
     @JoinColumn(name = "ID_PRESTADOR")
-    private Prestador idPres;
+    private Prestador idPrestador;
 
 }

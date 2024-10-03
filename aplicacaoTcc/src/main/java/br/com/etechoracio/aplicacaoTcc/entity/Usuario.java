@@ -41,7 +41,7 @@ public class Usuario {
     @Column(name = "TELEFONE")
     private String telefone;
 
-    @Column(name = "DATANASCIMENTO")
+    @Column(name = "DATA_NASCIMENTO")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate dataNascimento;
 
@@ -70,7 +70,6 @@ public class Usuario {
 
     @Column(name = "COMPLEMENTORESI")
     private String complementoResi;
-
 
     @Column(name = "CEP")
     private BigInteger cep;

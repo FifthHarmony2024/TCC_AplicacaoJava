@@ -9,10 +9,11 @@ Usuário cliente:
 	"nome":"Mariana",
 	"sobrenome":"Silva Rodrigues",
 	"senha":"Mari12345",
+	"confSenha":"Mari12345",
 	"email":"marianasilva@gmail.com",
 	"telefone":"11967544329",
 	"sexo":"F",
-	"dataNascimento":"1990-05-15",
+	"dataNascimento":"14/02/2003",
 	"cpf":"80023456332",
 	"endereco":"Rua Novo Horizonte",
 	"numResidencial":"134",
@@ -24,13 +25,15 @@ Usuário cliente:
 Usuário Prestador:
 {
 	"nome":"Renato",
-	"sobrenome":" Bruno Magalhães",
+	"sobrenome":"Bruno Magalhães",
 	"senha":"bruninho12345",
+    "confSenha":"bruninho12345",
 	"email":"renatopedreiro@gmail.com",
 	"telefone":"11964554329",
 	"sexo":"M",
+    "dataNascimento":"15/05/2006",
 	"login":"ren",
-	"cpf":"40053456332",
+	"cpf":"64711345841",
 	"endereco":"Rua Paraiso",
 	"numResidencial":"174",
 	"bairro":"Jardim Pereira",
@@ -38,8 +41,7 @@ Usuário Prestador:
 	"cep":"09834567",
 	"categoriaServico":"Pedreiro",
 	"nomeComercial":"Renato Quebra Tudo",
-	"tipoPrestador":"AUTONOMO",
-	"cnpj":""
+	"tipoPrestador":"AUTONOMO"
 }
 
 Adicionar Postagens: http://localhost:8080/postagens/{id do Prestador}
@@ -54,7 +56,7 @@ Postagens Exemplo:
     "resolucao": "1920x1080",
     "tamanhoArquivo": 2.5,
     "tipoArquivo": "image/jpeg",
-    "dtPostagem": "2024-09-22
+    "dtPostagem": "2024-09-22"
 
 }
 

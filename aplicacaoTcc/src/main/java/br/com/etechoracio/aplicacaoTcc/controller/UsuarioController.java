@@ -27,8 +27,10 @@ public class UsuarioController {
     }
 
     @PostMapping("/prestador")
-    public ResponseEntity<Prestador> cadastrarPrestador(@RequestBody @Valid Prestador prestador) {
-        return service.cadastrarPrestador(prestador);
+    public ResponseEntity<Prestador> cadastrarPrestador(
+            @RequestBody @Valid Prestador prestador,
+            @RequestParam List<Integer> categoriasSelecionadas) {
+        return service.cadastrarPrestador(prestador, categoriasSelecionadas);
     }
 
     @GetMapping

@@ -2,9 +2,11 @@ package br.com.etechoracio.aplicacaoTcc.service;
 
 import br.com.etechoracio.aplicacaoTcc.dto.PrestadorResponseDTO;
 import br.com.etechoracio.aplicacaoTcc.dto.UsuarioResponseDTO;
+import br.com.etechoracio.aplicacaoTcc.entity.Categoria;
 import br.com.etechoracio.aplicacaoTcc.entity.Prestador;
 import br.com.etechoracio.aplicacaoTcc.entity.Usuario;
 import br.com.etechoracio.aplicacaoTcc.enuns.TipoPrestador;
+import br.com.etechoracio.aplicacaoTcc.repository.CategoriaRepository;
 import br.com.etechoracio.aplicacaoTcc.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,12 +34,16 @@ public class UsuarioService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private CategoriaRepository categoriaRepository;
+
     private ModelMapper modelMapper = new ModelMapper();
 
     private static final String UPLOAD_DIR = "uploads/";
 
 
-    public ResponseEntity<Prestador> cadastrarPrestador(Prestador prestador) {
+    public ResponseEntity<Prestador> cadastrarPrestador(Prestador prestador, List<Integer> categoriasSelecionadas) {
+        // Verificações relacionadas ao prestador já existentes
         if (prestador.getTipoPrestador() == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
@@ -66,6 +72,23 @@ public class UsuarioService {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
         }
 
+        // Adicionando a verificação e associação de categorias (agora com Integer)
+        if (categoriasSelecionadas.size() < 1 || categoriasSelecionadas.size() > 5) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);  // Erro se não tiver entre 1 e 5 categorias
+        }
+
+        // Buscando as categorias no repositório pelo ID (agora com Integer)
+        List<Categoria> categorias = categoriaRepository.findAllById(categoriasSelecionadas);
+
+        // Validar se todas as categorias foram encontradas
+        if (categorias.size() != categoriasSelecionadas.size()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);  // Alguma categoria não existe
+        }
+
+        // Associando as categorias ao prestador
+        prestador.setCategorias(categorias);
+
+        // Continua o processo de salvamento
         prestador.setSenha(passwordEncoder.encode(prestador.getSenha()));
         Prestador savedPrestador = repository.save(prestador);
 
@@ -107,7 +130,7 @@ public class UsuarioService {
     }
 
     public ResponseEntity<String> uploadFotoPerfil(Integer idUsuario, MultipartFile file) {
-        Optional<Usuario> usuarioOpt = repository.findById(Long.valueOf(idUsuario));
+        Optional<Usuario> usuarioOpt = repository.findById(Integer.valueOf(idUsuario));
         if (!usuarioOpt.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado");
         }
@@ -131,7 +154,7 @@ public class UsuarioService {
     }
 
     public ResponseEntity<String> removerFotoPerfil(Integer idUsuario) {
-        Optional<Usuario> usuarioOpt = repository.findById(Long.valueOf(idUsuario));
+        Optional<Usuario> usuarioOpt = repository.findById(Integer.valueOf(idUsuario));
         if (!usuarioOpt.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado");
         }

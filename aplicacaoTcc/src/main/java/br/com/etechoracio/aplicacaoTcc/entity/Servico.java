@@ -26,17 +26,11 @@ public class Servico {
 
     @ManyToOne
     @JoinColumn(name = "ID_PRESTADOR")
-    private Prestador id;
+    private Prestador idPrestador;
 
     @ManyToOne
     @JoinColumn(name = "ID_CATEGORIA")
-    private Categoria idCate;
+    private Categoria idCategoria;
 
-    @ManyToMany
-    @JoinTable(name = " REL_PRESTADOR_SERVICO",
-            joinColumns = @JoinColumn(name = "ID_SERV"),
-            inverseJoinColumns = @JoinColumn(name = "ID_PRESTADOR")
-    )
-    private List<Servico> servicos;
 
 }

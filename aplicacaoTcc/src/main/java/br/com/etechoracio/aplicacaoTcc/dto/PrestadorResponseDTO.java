@@ -11,7 +11,6 @@ import java.util.List;
 public class PrestadorResponseDTO extends UsuarioResponseDTO{
 
     private String nomeComercial;
-    private String categoriaServico;
     private String cnpj;
     private TipoPrestador tipo;
     private String cpf;

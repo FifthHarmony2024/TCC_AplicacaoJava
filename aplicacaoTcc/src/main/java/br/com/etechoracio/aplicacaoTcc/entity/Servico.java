@@ -1,21 +1,21 @@
 package br.com.etechoracio.aplicacaoTcc.entity;
 
-
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.List;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "SERVICO")
-
+@NoArgsConstructor
+@AllArgsConstructor
 public class Servico {
     @Id
-    @Column(name = "ID_SERV")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID_SERVICO")
     private Integer idServico;
 
     @Column(name = "NOME_SERVICO")
@@ -31,6 +31,4 @@ public class Servico {
     @ManyToOne
     @JoinColumn(name = "ID_CATEGORIA")
     private Categoria idCategoria;
-
-
 }
